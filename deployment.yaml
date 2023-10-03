@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: poc-list-gcs-objects-deployment
+  namespace: poc-identity
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: list-gcs-objects
+  template:
+    metadata:
+      labels:
+        app: list-gcs-objects
+    spec:
+      serviceAccountName: sa-poc-gke
+      nodeSelector:
+        iam.gke.io/gke-metadata-server-enabled: "true"
+      containers:
+        - name: poc-list-gcs-objects-container
+          image: gcr.io/infracloud-treinamento/poc-gcs:v1
